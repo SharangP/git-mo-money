@@ -42,14 +42,14 @@ def get_commit(owner, repo, sha):
 
 def get_commit_data(owner, repo, collaborators):
     data = dict()
+    for collaborator in collaborators:
+        data[collaborator] = Collaborator(collaborator)
     commits = get_repo_commits(owner, repo)
     for commit in commits:
         commit_data = get_commit(owner, repo, commit['sha'])
         cur_collab = commit_data['committer']['login']
         if cur_collab in collaborators:
-            if cur_collab not in data.keys():
-                data[cur_collab] = Collaborator(cur_collab)
             data[cur_collab].num_commits += 1
-            data[cur_collab].lines_contributed += commit_data['stats']['total']
+            data[cur_collab].num_lines += commit_data['stats']['total']
     return data
 

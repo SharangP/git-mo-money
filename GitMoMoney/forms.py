@@ -1,5 +1,5 @@
 from flask.ext.wtf import Form
-from wtforms import (TextField, IntegerField, DecimalField, validators,
+from wtforms import (TextField, IntegerField, FloatField, validators,
         SelectMultipleField, widgets)
 
 class RepositoryForm(Form):
@@ -20,7 +20,7 @@ class CollaboratorsForm(Form):
     collaborators = MultiCheckboxField('Collaborators', coerce=int)
 
 class OptionsForm(Form):
-    max_money = DecimalField('Max Amount of Money To Pay')
+    max_money = FloatField('Max Amount of Money To Pay')
     num_commits = IntegerField('Number Commits Threshold')
     num_lines = IntegerField('Number Lines Threshold')
 

@@ -4,6 +4,7 @@ from models import User
 from forms import RepositoryForm, CollaboratorsForm, OptionsForm
 from github import get_repo, get_repo_collaborators, get_repo_commits, get_commit_data
 from wtforms import TextField
+import math
 
 @app.route('/')
 def index():
@@ -50,7 +51,7 @@ def options():
     class F(OptionsForm):
         pass
     for collab in session['collab_data'].keys():
-        setattr(F, collab, TextField("%s's Venmo Key" % collab))
+        setattr(F, collab, TextField("%s's Venmo Key:" % collab))
     form = F(request.form)
     if request.method == 'POST' and form.validate():
         try:
@@ -59,7 +60,7 @@ def options():
             session['options']['num_commits'] = form.num_commits.data
             session['options']['num_lines'] = form.num_lines.data
             for collab in session['collab_data'].keys():
-                session['collab_data'][collab]['venmo'] = getattr(form, collab)
+                session['collab_data'][collab]['venmo'] = getattr(form, collab).data
             return redirect(url_for('results'))
         except:
             return render_template('error.html')
@@ -71,6 +72,40 @@ def results():
         return render_template('error.html')
     git_results = get_commit_data(session['repo']['owner']['login'], session['repo']['name'], session['collab_data'].keys())
     collab_data = session['collab_data']
+    total_lines = 0
+    max_lines = [0, '']
+    total_commits = 0
+    max_commits = [0, '']
+    for collab in git_results.keys():
+        print collab
+        print git_results[collab]
+        print session['collab_data'].keys()
+        collab_data[collab]['commit_data'] = git_results[collab]
+        total_commits += git_results[collab].num_commits
+        total_lines += git_results[collab].num_lines
+        if git_results[collab].num_commits > max_commits[0]:
+            max_commits[0] = git_results[collab].num_commits
+            max_commits[1] = collab
+        if git_results[collab].num_lines > max_lines[0]:
+            max_lines[0] = git_results[collab].num_lines
+            max_lines[1] = collab
 
-
-    return render_template('results.html', collab_data=collab_data)
+        collab_data[collab]['commit_data'] = {}
+        collab_data[collab]['commit_data']['num_commits'] = git_results[collab].num_commits
+        collab_data[collab]['commit_data']['num_lines'] = git_results[collab].num_lines
+    total_money = session['options']['max_money']*len(git_results.keys())*(session['options']['num_commits']+session['options']['num_lines'])
+    for collab in git_results.keys():
+        commit_money = float(session['options']['num_commits']) / (session['options']['num_commits'] + session['options']['num_lines']) * total_money *\
+                (git_results[collab].num_commits/(total_commits+0.001))
+        lines_money = float(session['options']['num_lines']) / (session['options']['num_commits'] + session['options']['num_lines']) * total_money *\
+                (git_results[collab].num_lines+0.01)/(total_commits+0.01)
+        import pdb
+        pdb.set_trace()
+        money = float(commit_money + lines_money) - (total_money / len(git_results.keys())) / (session['options']['num_commits']+session['options']['num_lines'])
+        collab_data[collab]['money'] = money
+    print collab_data
+    print session['options']
+    print total_commits
+    print total_lines
+    print total_money
+    return render_template('results.html', collab_data=collab_data, total_commits=total_commits, total_lines=total_lines)
