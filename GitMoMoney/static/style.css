@@ -41,6 +41,14 @@ html, body {
 	text-align: center;
 }
 
+.debt {
+    color: red;
+}
+
+.winner {
+    color: green;
+}
+
 .subtitle-box {
 	text-align: center;
 	font-family: Courier;
