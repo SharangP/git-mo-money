@@ -98,9 +98,9 @@ def results():
         commit_money = float(session['options']['num_commits']) / (session['options']['num_commits'] + session['options']['num_lines']) * total_money *\
                 (git_results[collab].num_commits/(total_commits+0.001))
         lines_money = float(session['options']['num_lines']) / (session['options']['num_commits'] + session['options']['num_lines']) * total_money *\
-                (git_results[collab].num_lines+0.01)/(total_commits+0.01)
-        import pdb
-        pdb.set_trace()
+                (git_results[collab].num_lines+0.01)/(total_lines+0.01)
+        #import pdb
+        #pdb.set_trace()
         money = float(commit_money + lines_money) - (total_money / len(git_results.keys())) / (session['options']['num_commits']+session['options']['num_lines'])
         collab_data[collab]['money'] = money
     print collab_data

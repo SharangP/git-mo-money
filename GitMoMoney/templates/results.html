@@ -24,7 +24,7 @@
             {% if collab_data[collaborator]['money'] > 0 %}
                 <span class="winner">earning ${{ collab_data[collaborator]['money'] }}</span>
             {% elif collab_data[collaborator]['money'] < 0 %}
-                <span class="debt">losing ${{ collab_data[collaborator]['money'] }}</span>
+                <span class="debt">losing ${{ -1*collab_data[collaborator]['money'] }}</span>
             {% else %}
                 breaking even
             {% endif %}
