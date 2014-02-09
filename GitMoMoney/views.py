@@ -131,6 +131,6 @@ def pay_up():
     for collab in payments.keys():
         for payment in payments[collab]:
             venmo.pay(payment[1], payment[2], note, payment[0])
-    #del session['repo']
-    #del session['collab_data']
+    del session['repo']
+    del session['collab_data']
     return render_template('pay_up.html')
