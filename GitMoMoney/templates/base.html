@@ -6,13 +6,15 @@
     <title>{% block title %}Git-Mo-Money{% endblock %}</title>
 
     {% block stylesheets %}
-    <link href="../static/style.css" rel="stylesheet">
-        <!-- <link rel="stylesheet" href="{{ url_for('static', filename='stylesheets/foundation.css') }}"> -->
+    <link href="{{ url_for('static', filename='style.css') }}" rel="stylesheet">
     {% endblock %}
 
 </head>
 <body>
     <div class="container">
+        <div class="title-box-top-left">
+            <a href="{{ url_for('index')}}"><img src="{{ url_for('static', filename='git-mo-money.png') }}"></a>
+        </div>
         {% block container %}{% endblock %}
     </div>
 </body>
