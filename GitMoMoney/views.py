@@ -70,3 +70,7 @@ def results():
     if not 'repo' in session or not 'collab_data' in session:
         return render_template('error.html')
     git_results = get_commit_data(session['repo']['owner']['login'], session['repo']['name'], session['collab_data'].keys())
+    collab_data = session['collab_data']
+
+
+    return render_template('results.html', collab_data=collab_data)
