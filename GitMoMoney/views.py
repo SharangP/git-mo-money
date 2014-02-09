@@ -14,7 +14,7 @@ def get_started():
     repo_error = False
     if request.method == 'POST' and form.validate():
         try:
-            commits = get_repo_commits(form.repo_owner.data, form.repo_name.data)
+            commits = get_repo(form.repo_owner.data, form.repo_name.data)
             return redirect(url_for('repo_collaborators', owner=form.repo_owner.data, repo=form.repo_name.data))
         except:
             repo_error = True

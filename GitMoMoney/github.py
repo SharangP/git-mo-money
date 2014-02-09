@@ -12,6 +12,13 @@ def get_user_repos(username):
     res = urllib2.urlopen(req)
     return json.loads(res.read())
 
+def get_repo(owner, repo):
+    req = urllib2.Request(BASE_URL + '/repos/' + owner + '/' + repo)
+    req.add_header('Accept', 'application/json')
+    req.add_header('Authorization', 'token ' + GITHUB_KEY)
+    res = urllib2.urlopen(req)
+    return json.loads(res.read())
+
 def get_repo_commits(owner, repo):
     req = urllib2.Request(BASE_URL + '/repos/' + owner + '/' + repo + '/commits')
     req.add_header('Accept', 'application/json')
