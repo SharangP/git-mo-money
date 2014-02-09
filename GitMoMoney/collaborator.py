@@ -1,5 +1,3 @@
-
-
 class Collaborator(object):
 
     def __init__(self, username):
