@@ -26,6 +26,13 @@ def get_repo_commits(owner, repo):
     res = urllib2.urlopen(req)
     return json.loads(res.read())
 
+def get_repo_collaborators(owner, repo):
+    req = urllib2.Request(BASE_URL + '/repos/' + owner + '/' + repo + '/collaborators')
+    req.add_header('Accept', 'application/json')
+    req.add_header('Authorization', 'token ' + GITHUB_KEY)
+    res = urllib2.urlopen(req)
+    return json.loads(res.read())
+
 def get_commit(owner, repo, sha):
     req = urllib2.Request(BASE_URL + '/repos/' + owner + '/' + repo + '/commits/' + sha)
     req.add_header('Accept', 'application/json')
@@ -45,6 +52,4 @@ def get_commit_data(owner, repo, collaborators):
             data[cur_collab].num_commits += 1
             data[cur_collab].lines_contributed += commit_data['stats']['total']
     return data
-
-
 
