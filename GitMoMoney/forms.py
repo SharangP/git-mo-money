@@ -20,9 +20,9 @@ class CollaboratorsForm(Form):
     collaborators = MultiCheckboxField('Collaborators', coerce=int)
 
 class OptionsForm(Form):
-    max_money = DecimalField('Max Amount of Money To Pay')
-    num_commits = IntegerField('Number Commits Threshold')
-    num_lines = IntegerField('Number Lines Threshold')
+    max_money = DecimalField('Max Amount of Money To Pay:')
+    num_commits = IntegerField('Number Commits Threshold:')
+    num_lines = IntegerField('Number Lines Threshold:')
 
     @classmethod
     def append_field(cls, name, field):

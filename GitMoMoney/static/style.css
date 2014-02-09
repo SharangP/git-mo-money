@@ -30,7 +30,7 @@ html, body {
 	max-width: 100px;
 	padding-top: 28px;
 	padding-left: 60px;
-	padding-bottom: 100px;
+	padding-bottom: 80px;
 	text-align: center;
 }
 
@@ -74,11 +74,12 @@ html, body {
 
 .form-box {
 	padding: 50px 200px 0 200px;
-	line-height: 80px;
+	line-height: 60px;
 }
 
 .form-element {
 	font-family: Courier;
-	font-size: 32pt;
+	font-size: 24pt;
 	line-height: 50px;
+	text-decoration: none;
 }
