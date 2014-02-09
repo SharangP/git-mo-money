@@ -1,21 +1,22 @@
 {% extends "base.html" %}
 
 {% block container %}
-        <div class ="subtitle-box">
-            <span>Enter the Github Repository Details To See Who Should be Paid</span>
-        </div>
-        <div class="form-box">
-            <form action="" method="post" class="custom">{{ form.csrf_token }}
-                {% if repo_error %}
-                    <span>Please Enter a Valid Repository, Make Sure Both the Owner's Username and Repo Name are Spelled Properly</span>
-                {% endif %}
-                {{ form.repo_owner.label }}
-                {{ form.repo_owner}}
-                {{ form.repo_name.label }}
-                {{ form.repo_name }}
-                <div>
-                    <input type="submit" value="Continue" class="button" />
-                </div>
-            </form>
-        </div>
+    <div class ="subtitle-box">
+        <span>Choose a Github Repo to track</span>
+    </div>
+    <div class="form-box">
+        <form action="" method="post" class="custom">{{ form.csrf_token }}
+            {% if repo_error %}
+                <span>Please Enter a Valid Repository, Make Sure Both the Owner's Username and Repo Name are Spelled Properly</span>
+            {% endif %}
+            {{ form.repo_owner.label(class='form-element') }}
+            {{ form.repo_owner}}
+            </br>
+            {{ form.repo_name.label(class='form-element') }}
+            {{ form.repo_name }}
+            <div>
+                <input type="submit" value="Continue" class="button" />
+            </div>
+        </form>
+    </div>
 {% endblock %}
