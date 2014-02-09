@@ -14,12 +14,14 @@ def get_started():
     repo_error = False
     if request.method == 'POST' and form.validate():
         try:
-            commits = get_repo(form.repo_owner.data, form.repo_name.data)
-            return redirect(url_for('repo_collaborators', owner=form.repo_owner.data, repo=form.repo_name.data))
+            repo = get_repo(form.repo_owner.data, form.repo_name.data)
+            session['repo'] = repo
+            return redirect(url_for('repo_collaborators'))
         except:
             repo_error = True
     return render_template('get_started.html', form=form, repo_error=repo_error)
 
 @app.route('/collaborators', methods=["GET", "POST"])
 def collaborators():
-
+    if not 'repo' in session:
+        return render_template('error.html')
