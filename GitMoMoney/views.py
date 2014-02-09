@@ -3,7 +3,8 @@ from flask import render_template, flash, redirect, session, url_for, request, g
 from models import User
 from forms import RepositoryForm, CollaboratorsForm, OptionsForm
 from github import get_repo, get_repo_collaborators, get_repo_commits, get_commit_data
-from wtforms import TextField
+from wtforms import TextField, IntegerField
+from venmo import Venmo
 import math
 
 @app.route('/')
@@ -52,6 +53,7 @@ def options():
         pass
     for collab in session['collab_data'].keys():
         setattr(F, collab, TextField("%s's Venmo Key:" % collab))
+        setattr(F, collab + '-phone', IntegerField("Phone:"))
     form = F(request.form)
     if request.method == 'POST' and form.validate():
         try:
@@ -61,6 +63,7 @@ def options():
             session['options']['num_lines'] = form.num_lines.data
             for collab in session['collab_data'].keys():
                 session['collab_data'][collab]['venmo'] = getattr(form, collab).data
+                session['collab_data'][collab]['phone'] = getattr(form, collab + '-phone').data
             return redirect(url_for('results'))
         except:
             return render_template('error.html')
@@ -77,9 +80,6 @@ def results():
     total_commits = 0
     max_commits = [0, '']
     for collab in git_results.keys():
-        print collab
-        print git_results[collab]
-        print session['collab_data'].keys()
         collab_data[collab]['commit_data'] = git_results[collab]
         total_commits += git_results[collab].num_commits
         total_lines += git_results[collab].num_lines
@@ -99,13 +99,39 @@ def results():
                 (git_results[collab].num_commits/(total_commits+0.001))
         lines_money = float(session['options']['num_lines']) / (session['options']['num_commits'] + session['options']['num_lines']) * total_money *\
                 (git_results[collab].num_lines+0.01)/(total_lines+0.01)
-        #import pdb
-        #pdb.set_trace()
-        money = float(commit_money + lines_money) - (total_money / len(git_results.keys())) / (session['options']['num_commits']+session['options']['num_lines'])
-        collab_data[collab]['money'] = money
-    print collab_data
-    print session['options']
-    print total_commits
-    print total_lines
-    print total_money
+        money = (float(commit_money + lines_money) - (total_money / len(git_results.keys()))) / (session['options']['num_commits']+session['options']['num_lines'])
+        collab_data[collab]['money'] = math.ceil(money * 100) / 100.0
+    session['collab_data'] = collab_data
     return render_template('results.html', collab_data=collab_data, total_commits=total_commits, total_lines=total_lines)
+
+@app.route('/pay_up')
+def pay_up():
+    if 'repo' not in session or not 'collab_data' in session:
+        return render_template('error.html')
+    venmo = Venmo()
+    session['collab_data']['SharangP']['money'] = 0.01
+    session['collab_data']['rgruener']['money'] = -0.01
+    balances = {}
+    payments = {}
+    for collab in session['collab_data'].keys():
+        balances[collab] = session['collab_data'][collab]['money']
+        payments[collab] = []
+    for collab in balances.keys():
+        if balances[collab] < 0:
+            for collab2 in balances.keys():
+                if collab != collab2 and balances[collab2] > 0:
+                    if balances[collab2] > -1*balances[collab]:
+                        payments[collab].append((balances[collab], session['collab_data'][collab]['venmo'], session['collab_data'][collab2]['phone']))
+                        balances[collab2] -= balances[collab]
+                        balances[collab] = 0
+                    else:
+                        payments[collab].append((balances[collab2], session['collab_data'][collab]['venmo'], session['collab_data'][collab2]['phone']))
+                        balances[collab] += balances[collab2]
+                        balances[collab2] = 0
+    note = 'You can Git-Mo-Money by committing to the repo %s more!' % session['repo']['url']
+    for collab in payments.keys():
+        for payment in payments[collab]:
+            venmo.pay(payment[1], payment[2], note, payment[0])
+    del session['repo']
+    del session['collab_data']
+    return render_template('pay_up.html')

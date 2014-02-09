@@ -19,6 +19,10 @@
         {% endif %}
         <br>
         {% endfor %}
-        <input type="submit" value="Pay Up!" class="button" />
+        <a href="{{ url_for('pay_up') }}">
+            <div class ="button">
+                <span>Pay Up!</span>
+            </div>
+        </a>
     </div>
 {% endblock %}

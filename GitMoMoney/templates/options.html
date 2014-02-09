@@ -15,7 +15,10 @@
                     {{ form.num_lines }}<br>
                     {% for collab in collaborators %}
                         {{ form.__getitem__(collab).label(class='form-element') }}
-                        {{ form.__getitem__(collab) }}<br>
+                        {{ form.__getitem__(collab) }}
+                        {{ form.__getitem__(collab + '-phone').label(class='form-element') }}
+                        {{ form.__getitem__(collab + '-phone') }}
+                        <br>
                     {% endfor %}
                 </div>
                 <input type="submit" value="Continue" class="button" />
