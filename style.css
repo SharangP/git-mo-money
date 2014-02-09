@@ -20,6 +20,16 @@ html, body {
 	color: yellow;
 }
 
+.title-box-small {
+	padding-top: 20px;
+	padding-left: 40px;
+	text-align: left;
+	font-family: Courier;
+	font-size: 42pt;
+	font-weight: 600;
+	color: yellow;
+}
+
 .subtitle-box {
 	padding-top: 60px;
 	text-align: center;
