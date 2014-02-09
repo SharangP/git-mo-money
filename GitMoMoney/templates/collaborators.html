@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Git-Mo-Money</title>
+    <meta name="description" content="Commit for money with Github and Venmo">
+    <link href="{{ url_for('static', filename='style.css') }}" rel="stylesheet">
+</head>
+
+<body>
+    <div class="container">
+        <div class="title-box">
+            <span id="title">git-mo-money</span>
+        </div>
+        <div class ="subtitle-box">
+            <span>Choose Which Collaborators To Include in This Git-Mo-Money</span>
+        </div>
+        <div class="form-box">
+            <form action="" method="post" class="custom">{{ form.csrf_token }}
+                {% for collaborator in form.collaborators %}
+                <a href="{{ collaborators[collaborator.data]['html_url'] }}"><img src="{{ collaborators[collaborator.data]['avatar_url'] }}" style="height:80px"/></a>
+                <a href="{{ collaborators[collaborator.data]['html_url'] }}">{{ collaborator.label }}</a>
+                {{ collaborator }}<br>
+                {% endfor %}
+                <input type="submit" value="Continue" class="button" />
+            </form>
+        </div>
+    </div>
+</body>
+
+</html>

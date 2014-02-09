@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Git-Mo-Money</title>
+    <meta name="description" content="Commit for money with Github and Venmo">
+    <link href="{{ url_for('static', filename='style.css') }}" rel="stylesheet">
+</head>
+
+<body>
+    <div class="container">
+        <div class="title-box">
+            <span id="title">git-mo-money</span>
+        </div>
+        <div class ="subtitle-box">
+            <span>Enter the Github Repository Details To See Who Should be Paid</span>
+        </div>
+        <div class="form-box">
+            <form action="" method="post" class="custom">{{ form.csrf_token }}
+                {% if repo_error %}
+                    <span>Please Enter a Valid Repository, Make Sure Both the Owner's Username and Repo Name are Spelled Properly</span>
+                {% endif %}
+                {{ form.repo_owner.label }}
+                {{ form.repo_owner}}
+                {{ form.repo_name.label }}
+                {{ form.repo_name }}
+                <input type="submit" value="Continue" class="button" />
+            </form>
+        </div>
+    </div>
+</body>
+
+</html>
