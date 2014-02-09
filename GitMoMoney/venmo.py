@@ -17,8 +17,8 @@ class Venmo:
 
     def pay(self, payer_key, phone, note, amount):
 
-        if amount > 1:
-            print "You definitely didnt mean to pay $1"
+        if amount > 20:
+            print "You definitely didnt mean to pay $20"
             return
 
         params = {
@@ -33,8 +33,8 @@ class Venmo:
             req = urllib2.Request(self.__paymentUrl__, data)
             response = urllib2.urlopen(req)
             result = response.read()
+            print result
+            return result
         except urllib2.URLError, e:
-            print e.message
-            return results
+            print e
 
-        print result

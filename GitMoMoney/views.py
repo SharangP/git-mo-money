@@ -109,8 +109,6 @@ def pay_up():
     if 'repo' not in session or not 'collab_data' in session:
         return render_template('error.html')
     venmo = Venmo()
-    session['collab_data']['SharangP']['money'] = 0.01
-    session['collab_data']['rgruener']['money'] = -0.01
     balances = {}
     payments = {}
     for collab in session['collab_data'].keys():
@@ -121,17 +119,18 @@ def pay_up():
             for collab2 in balances.keys():
                 if collab != collab2 and balances[collab2] > 0:
                     if balances[collab2] > -1*balances[collab]:
-                        payments[collab].append((balances[collab], session['collab_data'][collab]['venmo'], session['collab_data'][collab2]['phone']))
+                        payments[collab].append((-1*balances[collab], session['collab_data'][collab]['venmo'], session['collab_data'][collab2]['phone']))
                         balances[collab2] -= balances[collab]
                         balances[collab] = 0
                     else:
                         payments[collab].append((balances[collab2], session['collab_data'][collab]['venmo'], session['collab_data'][collab2]['phone']))
                         balances[collab] += balances[collab2]
                         balances[collab2] = 0
+    print payments
     note = 'You can Git-Mo-Money by committing to the repo %s more!' % session['repo']['url']
     for collab in payments.keys():
         for payment in payments[collab]:
             venmo.pay(payment[1], payment[2], note, payment[0])
-    del session['repo']
-    del session['collab_data']
+    #del session['repo']
+    #del session['collab_data']
     return render_template('pay_up.html')
