@@ -1,37 +1,24 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="utf-8">
-    <title>Git-Mo-Money</title>
-    <meta name="description" content="Commit for money with Github and Venmo">
-    <link href="{{ url_for('static', filename='style.css') }}" rel="stylesheet">
-</head>
+{% extends "base.html" %}
 
-<body>
-    <div class="container">
-        <div class="title-box">
-            <span id="title">git-mo-money</span>
-        </div>
-        <div class ="subtitle-box">
-            <span>Results</span>
-        </div>
-        <div>
-            {% for collaborator in collab_data.keys() %}
-            <a href="{{ collab_data[collaborator]['html_url'] }}"><img src="{{ collab_data[collaborator]['avatar_url'] }}" style="height:80px"/></a>
-            <a href="{{ collab_data[collaborator]['html_url'] }}">{{ collaborator }}</a> made
-            {{ collab_data[collaborator]['commit_data']['num_commits'] }} of {{ total_commits }} commits and
-            {{ collab_data[collaborator]['commit_data']['num_lines'] }} of {{ total_lines }} lines
-            {% if collab_data[collaborator]['money'] > 0 %}
-                <span class="winner">earning ${{ collab_data[collaborator]['money'] }}</span>
-            {% elif collab_data[collaborator]['money'] < 0 %}
-                <span class="debt">losing ${{ -1*collab_data[collaborator]['money'] }}</span>
-            {% else %}
-                breaking even
-            {% endif %}
-            <br>
-            {% endfor %}
-        </div>
+{% block container %}
+    <div class ="subtitle-box">
+        <span>Results</span>
     </div>
-</body>
-
-</html>
+    <div class="form-box">
+        {% for collaborator in collab_data.keys() %}
+        <a href="{{ collab_data[collaborator]['html_url'] }}"><img src="{{ collab_data[collaborator]['avatar_url'] }}" style="height:80px"/></a>
+        <a href="{{ collab_data[collaborator]['html_url'] }}">{{ collaborator }}</a> made
+        {{ collab_data[collaborator]['commit_data']['num_commits'] }} of {{ total_commits }} commits and
+        {{ collab_data[collaborator]['commit_data']['num_lines'] }} of {{ total_lines }} lines
+        {% if collab_data[collaborator]['money'] > 0 %}
+            <span class="winner">earning ${{ collab_data[collaborator]['money'] }}</span>
+        {% elif collab_data[collaborator]['money'] < 0 %}
+            <span class="debt">losing ${{ -1*collab_data[collaborator]['money'] }}</span>
+        {% else %}
+            breaking even
+        {% endif %}
+        <br>
+        {% endfor %}
+        <input type="submit" value="Pay Up!" class="button" />
+    </div>
+{% endblock %}
