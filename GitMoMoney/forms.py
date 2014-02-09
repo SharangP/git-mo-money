@@ -3,8 +3,8 @@ from wtforms import (TextField, IntegerField, DecimalField, validators,
         SelectMultipleField, widgets)
 
 class RepositoryForm(Form):
-    repo_owner = TextField('Repository Owner', [validators.Length(min=1, max=35)])
-    repo_name = TextField('Repository Name', [validators.Length(min=1, max=35)])
+    repo_owner = TextField('Repository Owner:', [validators.Length(min=1, max=35)])
+    repo_name = TextField('Repository Name:', [validators.Length(min=1, max=35)])
 
 class MultiCheckboxField(SelectMultipleField):
     """

@@ -9,9 +9,10 @@
                 {% if repo_error %}
                     <span>Please Enter a Valid Repository, Make Sure Both the Owner's Username and Repo Name are Spelled Properly</span>
                 {% endif %}
-                {{ form.repo_owner.label }}
+                {{ form.repo_owner.label(class='form-element') }}
                 {{ form.repo_owner}}
-                {{ form.repo_name.label }}
+                </br>
+                {{ form.repo_name.label(class='form-element') }}
                 {{ form.repo_name }}
                 <div>
                     <input type="submit" value="Continue" class="button" />
