@@ -1,8 +1,8 @@
-from GitMoMoney import app, db, lm, oid
+from GitMoMoney import app
 from flask import render_template, flash, redirect, session, url_for, request, g
 from models import User
 from forms import RepositoryForm
-from github import get_repo_commits
+from github import get_repo, get_repo_collaborators, get_repo_commits
 
 @app.route('/')
 def index():
@@ -25,3 +25,10 @@ def get_started():
 def collaborators():
     if not 'repo' in session:
         return render_template('error.html')
+    try:
+        repo = session['repo']
+        collaborators = get_repo_collaborators(repo['owner']['login'], repo['name'])
+        return render_template('collaborators.html', collaborators=collaborators)
+    except:
+        return render_template('error.html')
+
