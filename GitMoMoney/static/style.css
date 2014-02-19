@@ -13,32 +13,29 @@ html, body {
 
 .title-box {
 	height: 110px;
-	max-width: 350px;
-	padding-top: 160px;
-	padding-left: 275px;
-	padding-bottom: 70px;
+	width: 100%;
+	padding-top: 12%;
+	padding-bottom: 6%;
 	text-align: center;
 }
 
 .title-box img {
-	height: 110px;
-	max-width: auto;
+	width: 50%;
+	height: auto;
 	text-align: center;
 }
 
 .title-box-top-left {
-	height: 60px;
-	max-width: 100px;
-	padding-top: 28px;
-	padding-left: 60px;
-	padding-bottom: 80px;
-	text-align: center;
+	width: 100%;
+	padding-top: 3%;
+	padding-left: 6%;
+	padding-bottom: 7%;
+	text-align: left;
 }
 
 .title-box-top-left img {
-	height: 60px;
-	max-width: auto;
-	text-align: center;
+	width: 25%;
+	height: auto;
 }
 
 .debt {
