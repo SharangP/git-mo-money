@@ -47,9 +47,12 @@ def get_commit_data(owner, repo, collaborators):
     commits = get_repo_commits(owner, repo)
     for commit in commits:
         commit_data = get_commit(owner, repo, commit['sha'])
-        cur_collab = commit_data['committer']['login']
-        if cur_collab in collaborators:
-            data[cur_collab].num_commits += 1
-            data[cur_collab].num_lines += commit_data['stats']['total']
+        try:
+            cur_collab = commit_data['committer']['login']
+            if cur_collab in collaborators:
+                data[cur_collab].num_commits += 1
+                data[cur_collab].num_lines += commit_data['stats']['total']
+        except:
+            pass
     return data
 
