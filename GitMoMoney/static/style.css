@@ -58,7 +58,7 @@ html, body {
 }
 
 .button {
-	margin-top: 50px;
+	margin: 50px 40px 0 40px;
 	background-color: #19D119;
 	display: inline-block;
 	font-family: Courier;
@@ -69,6 +69,10 @@ html, body {
 	text-align:center;
 }
 
+.button span {
+	color: black;
+}
+
 .button:hover {
 	background-color: #33ADD6;
 }
@@ -76,6 +80,14 @@ html, body {
 .button:active {
 	position:relative;
 	top:1px;
+}
+
+.twitter {
+	background-color: #4099FF;
+}
+
+.facebook {
+	background-color: #3B5998;
 }
 
 .form-box {
